@@ -1,0 +1,40 @@
+/etc/security/limits.conf
+root    soft    nofile    65536
+root    hard    nofile    65536
+esbuser soft    nofile    65536
+esbuser hard    nofile    65536
+
+u name = sonarqube 
+passwd = sonarqube 
+Db = sonarqube  
+
+vim /var/lib/pgsql/9.4/data/pg_hba.conf
+
+host    all             all             127.0.0.1/32            trust
+host    sonar       	sonar           10.0.0.9/32             trust
+
+sudo -u postgres psql
+postgres=# \l
+
+jiradbuser
+jiradb
+
+CREATE USER jiradbuser WITH PASSWORD 'jiradbuser';
+
+CREATE DATABASE jiradb WITH ENCODING 'UTF8' LC_COLLATE 'en_US.UTF-8' LC_CTYPE 'en_US.UTF-8' ;
+
+ALTER DATABASE target_database SET TABLESPACE new_tablespace;
+
+GRANT ALL PRIVILEGES ON DATABASE jiradb TO jiradbuser;
+
+ALTER DATABASE jiradb OWNER TO jiradbuser; 
+
+
+http://clusterfrak.com/sysops/app_installs/sonarqube_install/
+
+https://community.atlassian.com/t5/Jira-Core-questions/Cannot-get-Jira-to-load-in-browser/qaq-p/962246
+
+CREATE USER artifactory WITH PASSWORD 'artifactory'
+GRANT artifactory TO artifactory; # typically postgres;
+CREATE DATABASE artifactory WITH OWNER=artifactory ENCODING='UTF8';
+GRANT ALL PRIVILEGES ON DATABASE artifactory TO artifactory;
